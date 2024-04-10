@@ -3,19 +3,18 @@ import { BrowserRouter, Route, Routes, Link } from "react-router-dom";
 
 import Container from "@mui/material/Container";
 import AppBar from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
 
-import CustomerList from "./components/CustomerList";
-import TrainerList from "./components/TrainerList";
+import CustomerList from "./components/Customer/CustomerList"
+import TrainingList from "./components/Training/TrainingList"
 function App() {
-	const [value, setValue] = React.useState();
+	const [value, setValue] = React.useState("customerList");
 
 	const handleChange = (event, newValue) => {
 		setValue[newValue];
+
 	};
 	return (
 		<BrowserRouter>
@@ -29,14 +28,14 @@ function App() {
 							indicatorColor="inherit"
 						>
 							<Tab value="customerList" label="Customer List" component={Link} to="/" />
-							<Tab value="trainerList" label="Trainer List" component={Link} to="/trainer"/>
+							<Tab value="trainingList" label="Training List" component={Link} to="/training"/>
 						</Tabs>
 					</Box>
 				</AppBar>
 			</Container>
 			<Routes>
 				<Route path="/" exact Component={CustomerList} />
-				<Route path="/trainer" exact Component={TrainerList} />
+				<Route path="/training" exact Component={TrainingList} />
 			</Routes>
 		</BrowserRouter>
 	);

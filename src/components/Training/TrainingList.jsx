@@ -4,12 +4,12 @@ import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-quartz.css";
 import dayjs from "dayjs";
-function CustomerList() {
+function TrainingList() {
 	useEffect(() => {
-		fetchTrainer();
+		fetchTraining();
 	}, []);
 
-	const [trainers, setTrainer] = useState([]);
+	const [training, setTraining] = useState([]);
 	const pagination = true;
 
 	const [colDefs] = useState([
@@ -21,14 +21,14 @@ function CustomerList() {
 		{ field: "duration", filter: true },
 		{ field: "activity", filter: true },
 		{
-			headerName: "customer's name",
+			headerName: "Customer's name",
 			valueGetter: (params) =>
 				params.data.customer.firstname + " " + params.data.customer.lastname,
 			filter: true,
 		},
 	]);
 
-	const fetchTrainer = async () => {
+	const fetchTraining = async () => {
 		try {
 			const response = await fetch(
 				"https://customerrestservice-personaltraining.rahtiapp.fi/gettrainings",
@@ -37,7 +37,7 @@ function CustomerList() {
 				throw new Error("Error in fetch: " + response.statusText);
 			}
 			const data = await response.json();
-			setTrainer(data);
+			setTraining(data);
 		} catch (err) {
 			console.error(err);
 		}
@@ -45,7 +45,7 @@ function CustomerList() {
 	return (
 		<div className="ag-theme-quartz" style={{ height: 500 }}>
 			<AgGridReact
-				rowData={trainers}
+				rowData={training}
 				columnDefs={colDefs}
 				pagination={pagination}
 			/>
@@ -53,4 +53,4 @@ function CustomerList() {
 	);
 }
 
-export default CustomerList;
+export default TrainingList;
