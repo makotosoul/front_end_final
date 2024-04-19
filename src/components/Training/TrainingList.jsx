@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-quartz.css";
+import Button from "@mui/material/Button";
 import dayjs from "dayjs";
 function TrainingList() {
 	useEffect(() => {
@@ -26,6 +27,18 @@ function TrainingList() {
 				params.data.customer.firstname + " " + params.data.customer.lastname,
 			filter: true,
 		},
+		{
+			cellRenderer: (params) => (
+				<Button
+					size="small"
+					color="error"
+					onClick={() => deleteTraining("https://customerrestservice-personaltraining.rahtiapp.fi/api/trainings/"+params.data.id)}
+				>
+					Delete
+				</Button>
+			),
+			width: 150,
+		},
 	]);
 
 	const fetchTraining = async () => {
@@ -40,6 +53,19 @@ function TrainingList() {
 			setTraining(data);
 		} catch (err) {
 			console.error(err);
+		}
+	};
+	const deleteTraining = async (url) => {
+		if (window.confirm("Are you sure")) {
+			try {
+				const response = await fetch(url, { method: "DELETE" });
+				if (!response.ok) {
+					throw new Error("Error in fetch: " + response.statusText);
+				}
+				await fetchTraining();
+			} catch (err) {
+				console.error(err);
+			}
 		}
 	};
 	return (

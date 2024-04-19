@@ -6,6 +6,7 @@ import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-quartz.css";
 import AddCustomer from "./AddCustomer";
 import EditCustomer from "./EditCustomer";
+import AddTraining from "../Training/AddTraining";
 function CustomerList() {
 	useEffect(() => {
 		fetchCustomer();
@@ -15,13 +16,12 @@ function CustomerList() {
 	const pagination = true;
 
 	const [colDefs] = useState([
-		{ field: "firstname", filter: true },
-		{ field: "lastname", filter: true },
-		{ field: "streetaddress", filter: true },
-		{ field: "postcode", filter: true },
-		{ field: "city", filter: true },
-		{ field: "email", filter: true },
-		{ field: "phone", filter: true },
+		{
+			cellRenderer: (params) => (
+				<AddTraining saveTraining={saveTraining} training={params.data} />
+			),
+			width: 150,
+		},
 		{
 			cellRenderer: (params) => (
 				<Button
@@ -36,10 +36,17 @@ function CustomerList() {
 		},
 		{
 			cellRenderer: (params) => (
-				<EditCustomer updateCustomer={updateCustomer} customer = {params.data}/>
+				<EditCustomer updateCustomer={updateCustomer} customer={params.data} />
 			),
 			width: 150,
 		},
+		{ field: "firstname", filter: true },
+		{ field: "lastname", filter: true },
+		{ field: "streetaddress", filter: true },
+		{ field: "postcode", filter: true },
+		{ field: "city", filter: true },
+		{ field: "email", filter: true },
+		{ field: "phone", filter: true },
 	]);
 
 	const fetchCustomer = async () => {
@@ -89,16 +96,13 @@ function CustomerList() {
 			console.error(err);
 		}
 	};
-	const updateCustomer = async (customer,link) => {
+	const updateCustomer = async (customer, link) => {
 		try {
-			const response = await fetch(
-				link,
-				{
-					method: "PUT",
-					headers: { "Content-Type": "application/json" },
-					body: JSON.stringify(customer),
-				},
-			);
+			const response = await fetch(link, {
+				method: "PUT",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify(customer),
+			});
 
 			if (!response.ok) {
 				throw new Error("Error in fetch: " + response.statusText);
@@ -108,9 +112,26 @@ function CustomerList() {
 			console.error(err);
 		}
 	};
+	const saveTraining = async (training) => {
+		try {
+			const response = await fetch(
+				"https://customerrestservice-personaltraining.rahtiapp.fi/api/trainings",
+				{
+					method: "POST",
+					headers: { "Content-Type": "application/json" },
+					body: JSON.stringify(training),
+				},
+			);
+			if (!response.ok) {
+				throw new Error("Error in fetch: " + response.statusText);
+			}
+		} catch (err) {
+			console.error(err);
+		}
+	};
 	return (
 		<div className="ag-theme-quartz" style={{ height: 500 }}>
-		<AddCustomer saveCustomer={saveCustomer}/>
+			<AddCustomer saveCustomer={saveCustomer} />
 			<AgGridReact
 				rowData={customers}
 				columnDefs={colDefs}
