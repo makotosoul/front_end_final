@@ -65,7 +65,7 @@ function EditCustomer(props) {
 					},
 				}}
 			>
-				<DialogTitle>New Customer</DialogTitle>
+				<DialogTitle>Edit Customer</DialogTitle>
 				<DialogContent>
 					<TextField
 						autoFocus
