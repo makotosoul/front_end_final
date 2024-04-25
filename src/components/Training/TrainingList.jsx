@@ -4,6 +4,7 @@ import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-quartz.css";
 import Button from "@mui/material/Button";
+import DeleteIcon from '@mui/icons-material/Delete';
 import dayjs from "dayjs";
 function TrainingList() {
 	useEffect(() => {
@@ -14,6 +15,18 @@ function TrainingList() {
 	const pagination = true;
 
 	const [colDefs] = useState([
+		{
+			cellRenderer: (params) => (
+				<Button
+					size="small"
+					color="error"
+					onClick={() => deleteTraining("https://customerrestservice-personaltraining.rahtiapp.fi/api/trainings/"+params.data.id)}
+				>
+					<DeleteIcon/>
+				</Button>
+			),
+			width: 100,
+		},
 		{
 			headerName: "Date",
 			valueGetter: (params) =>dayjs(params.data.date).format("DD.MM.YYYY HH:mm"),
@@ -26,18 +39,6 @@ function TrainingList() {
 			valueGetter: (params) =>
 				params.data.customer.firstname + " " + params.data.customer.lastname,
 			filter: true,
-		},
-		{
-			cellRenderer: (params) => (
-				<Button
-					size="small"
-					color="error"
-					onClick={() => deleteTraining("https://customerrestservice-personaltraining.rahtiapp.fi/api/trainings/"+params.data.id)}
-				>
-					Delete
-				</Button>
-			),
-			width: 150,
 		},
 	]);
 
@@ -69,7 +70,7 @@ function TrainingList() {
 		}
 	};
 	return (
-		<div className="ag-theme-quartz" style={{ height: 500 }}>
+		<div className="ag-theme-quartz" style={{ height: '90vh' }}>
 			<AgGridReact
 				rowData={training}
 				columnDefs={colDefs}

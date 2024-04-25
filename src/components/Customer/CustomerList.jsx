@@ -1,9 +1,12 @@
 import React from "react";
 import Button from "@mui/material/Button";
 import { useState, useEffect } from "react";
+import { CsvExportModule } from "@ag-grid-community/csv-export";
 import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-quartz.css";
+import DeleteIcon from "@mui/icons-material/Delete";
+import GetAppIcon from "@mui/icons-material/GetApp";
 import AddCustomer from "./AddCustomer";
 import EditCustomer from "./EditCustomer";
 import AddTraining from "../Training/AddTraining";
@@ -14,7 +17,7 @@ function CustomerList() {
 
 	const [customers, setCustomers] = useState([]);
 	const pagination = true;
-
+	const [gridAPI, setGridAPI] = useState(null);
 	const [colDefs] = useState([
 		{
 			cellRenderer: (params) => (
@@ -29,16 +32,16 @@ function CustomerList() {
 					color="error"
 					onClick={() => deleteCustomer(params.data._links.customer.href)}
 				>
-					Delete
+					<DeleteIcon />
 				</Button>
 			),
-			width: 150,
+			width: 100,
 		},
 		{
 			cellRenderer: (params) => (
 				<EditCustomer updateCustomer={updateCustomer} customer={params.data} />
 			),
-			width: 150,
+			width: 100,
 		},
 		{ field: "firstname", filter: true },
 		{ field: "lastname", filter: true },
@@ -129,13 +132,37 @@ function CustomerList() {
 			console.error(err);
 		}
 	};
+	const onGridReady = (params) => {
+		setGridAPI(params.api);
+	};
+	const exportToCSV = () => {
+		const params = {
+			columnKeys: [
+				"firstname",
+				"lastname",
+				"streetaddress",
+				"postcode",
+				"city",
+				"email",
+				"phone",
+			],
+		};
+		gridAPI.exportDataAsCsv(params);
+	};
 	return (
-		<div className="ag-theme-quartz" style={{ height: 500 }}>
-			<AddCustomer saveCustomer={saveCustomer} />
+		<div className="ag-theme-quartz" style={{ height: "90vh" }}>
+			<div style={{ display: "flex", justifyContent: "space-between" }}>
+				<AddCustomer saveCustomer={saveCustomer} />
+				<Button variant="contained" color="success" onClick={exportToCSV}>
+					<GetAppIcon /> Download as CSV
+				</Button>
+			</div>
 			<AgGridReact
+				onGridReady={onGridReady}
 				rowData={customers}
 				columnDefs={colDefs}
 				pagination={pagination}
+				modules={[CsvExportModule]}
 			/>
 		</div>
 	);

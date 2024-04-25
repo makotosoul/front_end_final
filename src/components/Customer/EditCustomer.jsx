@@ -5,7 +5,7 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
-
+import EditIcon from '@mui/icons-material/Edit';
 function EditCustomer(props) {
 	const [open, setOpen] = React.useState(false);
 	const [customer, setCustomer] = React.useState({
@@ -49,7 +49,7 @@ function EditCustomer(props) {
 
 	return (
 		<React.Fragment>
-			<Button onClick={handleClickOpen}>Edit </Button>
+			<Button onClick={handleClickOpen} color="secondary"><EditIcon/> </Button>
 			<Dialog
 				open={open}
 				onClose={handleClose}

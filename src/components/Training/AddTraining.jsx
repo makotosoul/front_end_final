@@ -12,7 +12,6 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import dayjs from "dayjs";
 function AddTraining(props) {
 	let url = props.training._links.customer.href;
-	const customerId = url.split("/");
 
 	const [open, setOpen] = React.useState(false);
 	const [training, setTraining] = React.useState({
@@ -25,9 +24,7 @@ function AddTraining(props) {
 	const handleClickOpen = () => {
 		setTraining({
 			...training,
-			customer:
-				"https://localhost:8080/api/customers/" +
-				customerId[customerId.length - 1],
+			customer: url,
 		});
 		setOpen(true);
 	};
