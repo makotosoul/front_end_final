@@ -1,10 +1,5 @@
 import React from "react";
-import {
-	BrowserRouter,
-	Route,
-	Routes,
-	Link,
-} from "react-router-dom";
+import { BrowserRouter, Route, Routes, Link } from "react-router-dom";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Drawer from "@mui/material/Drawer";
@@ -13,6 +8,7 @@ import List from "@mui/material/List";
 import ListItemText from "@mui/material/ListItemText";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
+import BarChartIcon from "@mui/icons-material/BarChart";
 import Typography from "@mui/material/Typography";
 import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
@@ -21,9 +17,9 @@ import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
 import CustomerList from "./components/Customer/CustomerList";
 import TrainingList from "./components/Training/TrainingList";
 import Calendar from "./components/Training/Calendar";
+import Statistic from "./components/Training/Statistic";
 
 function App() {
-
 	const [state, setState] = React.useState({
 		left: false,
 	});
@@ -52,6 +48,10 @@ function App() {
 				<CalendarMonthIcon />
 				<ListItemText primary="Calendar" />
 			</ListItemButton>
+			<ListItemButton component={Link} to="/statistic">
+				<BarChartIcon />
+				<ListItemText primary="Statistic" />
+			</ListItemButton>
 		</List>
 	);
 	return (
@@ -77,17 +77,16 @@ function App() {
 							</Drawer>
 						</React.Fragment>
 					))}
-					<Typography
-						variant="h6"
-						component="div"
-						sx={{ flexGrow: 1 }}
-					>Personal Trainer</Typography>
+					<Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+						Personal Trainer
+					</Typography>
 				</Toolbar>
 			</AppBar>
 			<Routes>
 				<Route path="/" exact Component={CustomerList} />
 				<Route path="/training" exact Component={TrainingList} />
-				<Route path="/calendar" extract Component={Calendar} />
+				<Route path="/calendar" exact Component={Calendar} />
+				<Route path="/statistic" exact Component={Statistic} />
 			</Routes>
 		</BrowserRouter>
 	);
