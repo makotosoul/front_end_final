@@ -18,6 +18,7 @@ import TrainingList from "./components/Training/TrainingList";
 import Calendar from "./components/Training/Calendar";
 import Statistic from "./components/Training/Statistic";
 
+
 function App() {
 	const [state, setState] = React.useState({
 		left: false,
