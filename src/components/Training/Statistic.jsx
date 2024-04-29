@@ -38,7 +38,6 @@ function Statistic() {
 			      console.error(err);
 		      }
 	      };
-	      console.log(chartData);
 	      return (
 		      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
 		      <ResponsiveContainer width="100%" height={800}>
