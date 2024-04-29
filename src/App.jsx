@@ -13,7 +13,6 @@ import Typography from "@mui/material/Typography";
 import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
-
 import CustomerList from "./components/Customer/CustomerList";
 import TrainingList from "./components/Training/TrainingList";
 import Calendar from "./components/Training/Calendar";
